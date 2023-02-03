@@ -48,5 +48,32 @@ static char	*word_cat(const char *str, int start, int end)
 
 char	**ft_split(char const *s, char c)
 {
+	int		nbwords;
+	char	**split;
+	int		i;
+	int		j;
+	int		k;
 
+	i = 0;
+	j = 0;
+	k = 0;
+	if (!s || !c)
+		return (NULL);
+	nbwords = count_words(s, c);
+	split = (char **)malloc(sizeof(char *) * (nbwords + 1));
+	if (!split)
+		return (NULL);
+	while (i < nbwords)
+	{
+		while (s[j] && s[j] == c)
+			j++;
+		k = j;
+		while (s[k] && s[k] != c)
+			k++;
+		split[i++] = word_cat(s, j, k);
+	}
+split[i] = NULL;
+return (split);
 }
+
+
