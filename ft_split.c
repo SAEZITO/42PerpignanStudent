@@ -6,7 +6,7 @@
 /*   By: alsaez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:42:05 by alsaez            #+#    #+#             */
-/*   Updated: 2023/02/03 16:00:59 by alsaez           ###   ########.fr       */
+/*   Updated: 2023/02/06 17:55:28 by alsaez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ static int	count_words(const char *str, char c)
 static char	*word_cat(const char *str, int start, int end)
 {
 	char	*word;
-	int	i;
+	int		i;
 
 	i = 0;
-	word = malloc((end - start + 1) * (char));
+	word = malloc(end - start + 1);
 	while (start < end)
 		word[i++] = str[start++];
 	word[i] = '\0';
@@ -48,32 +48,28 @@ static char	*word_cat(const char *str, int start, int end)
 
 char	**ft_split(char const *s, char c)
 {
-	int		nbwords;
+	size_t	i;
+	size_t	j;
+	int		index;
 	char	**split;
-	int		i;
-	int		j;
-	int		k;
 
+	split = (char **)malloc((count_words(s, c) + 1) * sizeof(char *));
+	if (!split || !s)
+		return (0);
 	i = 0;
 	j = 0;
-	k = 0;
-	if (!s || !c)
-		return (NULL);
-	nbwords = count_words(s, c);
-	split = (char **)malloc(sizeof(char *) * (nbwords + 1));
-	if (!split)
-		return (NULL);
-	while (i < nbwords)
+	index = -1;
+	while (i <= ft_strlen(s))
 	{
-		while (s[j] && s[j] == c)
-			j++;
-		k = j;
-		while (s[k] && s[k] != c)
-			k++;
-		split[i++] = word_cat(s, j, k);
+		if (s[i] != c && index < 0)
+				index = i;
+		else if ((s[i] == c || i == ft_strlen(s)) && index >= 0)
+		{
+				split[j++] = word_cat(s, index, i);
+				index = -1;
+		}
+		i++;
 	}
-split[i] = NULL;
-return (split);
+	split[j] = 0;
+	return (split);
 }
-
-

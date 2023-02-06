@@ -6,7 +6,7 @@
 /*   By: alsaez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 12:28:35 by alsaez            #+#    #+#             */
-/*   Updated: 2023/02/03 15:32:40 by alsaez           ###   ########.fr       */
+/*   Updated: 2023/02/06 17:51:26 by alsaez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	while (dst[i] && i < size)
 		i++;
 	while (src[j] && ((i + j + 1) < size))
-		dst[i + j] = src[j++];
+	{
+		dst[i + j] = src[j];
+		j++;
+	}
 	if (i != size)
 		dst[i + j] = '\0';
 	return (i + ft_strlen(src));

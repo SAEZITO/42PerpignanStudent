@@ -1,17 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alsaez <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/06 15:17:04 by alsaez            #+#    #+#             */
+/*   Updated: 2023/02/06 15:18:31 by alsaez           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 
-void    ft_putnbr_fd(int n, int fd)
+void	ft_putnbr_fd(int n, int fd)
 {
-    unsigned int    nbr;
+	unsigned int	nbr;
 
-    if (n < 0)
-    {
-        nbr = (unsigned int)(n * -1);
-        ft_putchar_fd('-', fd);
-    }
-    else
-        nbr = (unsigned int)n;
-    if (nbr > 9)
-        ft_putnbr_fd(((char)(nbr / 10) + '0'), fd);
-    ft_putchar_fd(((char)(nbr % 10) + '0'), fd);
+	if (n < 0)
+	{
+		nbr = (unsigned int)(n * -1);
+		ft_putchar_fd('-', fd);
+	}
+	else
+		nbr = (unsigned int)n;
+	if (nbr > 9)
+		ft_putnbr_fd(((char)(nbr / 10) + '0'), fd);
+	ft_putchar_fd(((char)(nbr % 10) + '0'), fd);
 }

@@ -6,14 +6,14 @@
 /*   By: alsaez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 10:15:22 by alsaez            #+#    #+#             */
-/*   Updated: 2023/02/03 15:39:11 by alsaez           ###   ########.fr       */
+/*   Updated: 2023/02/06 16:38:04 by alsaez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
 
-# include <unist.h>
+# include <unistd.h>
 # include <stdlib.h>
 
 int		ft_isascii(int c);

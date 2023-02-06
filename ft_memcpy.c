@@ -6,7 +6,7 @@
 /*   By: alsaez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 12:03:58 by alsaez            #+#    #+#             */
-/*   Updated: 2023/02/02 12:12:58 by alsaez           ###   ########.fr       */
+/*   Updated: 2023/02/06 16:07:40 by alsaez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	d = (char *)dest;
 	s = (char *)src;
 	while (i < n)
-		d[i] = s[i++];
+	{
+		d[i] = s[i];
+		i = i + 1;
+	}
 	return (dest);
 }
