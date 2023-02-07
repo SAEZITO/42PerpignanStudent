@@ -6,7 +6,7 @@
 #    By: alsaez <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/02 15:57:37 by alsaez            #+#    #+#              #
-#    Updated: 2023/02/06 18:04:00 by alsaez           ###   ########.fr        #
+#    Updated: 2023/02/07 13:36:32 by alsaez           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ INCLUDE = libft.h
 
 SRC = ft_atoi.c \
       	ft_bzero.c \
+	ft_calloc.c \
 	ft_isalnum.c \
 	ft_isalpha.c \
 	ft_isascii.c \
@@ -38,13 +39,15 @@ SRC = ft_atoi.c \
 	ft_striteri.c \
 	ft_strjoin.c \
 	ft_strlcat.c \
+	ft_strlcpy.c \
 	ft_strlen.c \
 	ft_strmapi.c \
 	ft_strncmp.c \
 	ft_strnstr.c \
 	ft_strrchr.c \
-	ft_split.c \
 	ft_strtrim.c \
+	ft_split.c \
+	ft_substr.c \
 	ft_tolower.c \
 	ft_toupper.c
 
@@ -52,13 +55,14 @@ OBJ = ${SRC:.c=.o}
 
 all: ${NAME}
 
-.c.o:	gcc ${FLAGS} -c $< -o ${NAME}
-
 ${NAME}: ${OBJ}
-	ar -rcs ${NAME} ${OBJ}
+	ar rc ${NAME} ${OBJ}
 	echo "${NAME} created"
 	ranlib ${NAME}
 	echo "${NAME} indexed"
+
+%.o: %.c
+	gcc ${FLAGS} -c $< -o $@
 
 clean:
 	rm -f ${OBJ}

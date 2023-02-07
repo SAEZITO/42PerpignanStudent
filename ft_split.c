@@ -6,70 +6,93 @@
 /*   By: alsaez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 15:42:05 by alsaez            #+#    #+#             */
-/*   Updated: 2023/02/06 17:55:28 by alsaez           ###   ########.fr       */
+/*   Updated: 2023/02/07 14:38:53 by alsaez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	count_words(const char *str, char c)
+static int	char_is_separator(char c, char sep)
+{
+	if (c == sep || c == '\0')
+		return (1);
+	return (0);
+}
+
+static int	count_words(char *str, char sep)
 {
 	int	i;
-	int	trig;
+	int	words;
 
+	words = 0;
 	i = 0;
-	trig = 0;
-	while (*str)
+	while (str[i] != '\0')
 	{
-		if (*str != c && trig == 0)
-		{
-			trig = 1;
-			i++;
-		}
-		else if (*str == c)
-			trig = 0;
-		str++;
-	}
-	return (i);
-}
-
-static char	*word_cat(const char *str, int start, int end)
-{
-	char	*word;
-	int		i;
-
-	i = 0;
-	word = malloc(end - start + 1);
-	while (start < end)
-		word[i++] = str[start++];
-	word[i] = '\0';
-	return (word);
-}
-
-char	**ft_split(char const *s, char c)
-{
-	size_t	i;
-	size_t	j;
-	int		index;
-	char	**split;
-
-	split = (char **)malloc((count_words(s, c) + 1) * sizeof(char *));
-	if (!split || !s)
-		return (0);
-	i = 0;
-	j = 0;
-	index = -1;
-	while (i <= ft_strlen(s))
-	{
-		if (s[i] != c && index < 0)
-				index = i;
-		else if ((s[i] == c || i == ft_strlen(s)) && index >= 0)
-		{
-				split[j++] = word_cat(s, index, i);
-				index = -1;
-		}
+		if (char_is_separator(str[i + 1], sep) == 1
+			&& char_is_separator(str[i], sep) == 0)
+			words++;
 		i++;
 	}
-	split[j] = 0;
-	return (split);
+	return (words);
+}
+
+static int	write_word(char *dest, char *from, char sep)
+{
+	int	i;
+
+	i = 0;
+	while (char_is_separator(from[i], sep) == 0)
+	{
+		dest[i] = from[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (0);
+}
+
+static void	*write_split(char **split, char *str, char sep, int i)
+{
+	int		j;
+	int		word;
+
+	word = 0;
+	while (str[i] != '\0')
+		if (char_is_separator(str[i], sep) == 1)
+			i++;
+	else
+	{
+		j = 0;
+		while (char_is_separator(str[i + j], sep) == 0)
+			j++;
+		split[word] = (char *)malloc(j + 1);
+		if (!split[word])
+		{
+			while (word > 0)
+				free(split[--word]);
+			free(split);
+			return (NULL);
+		}
+		i += j + write_word(split[word], str + i, sep);
+		word++;
+	}
+	return ((void *)1);
+}
+
+char	**ft_split(const char *s, char c)
+{
+	char	**res;
+	char	*str;
+	int		words;
+
+	if (s == NULL)
+		return (NULL);
+	str = (char *)s;
+	words = count_words(str, c);
+	res = (char **)malloc(sizeof(char *) * (words + 1));
+	if (!res)
+		return (NULL);
+	res[words] = 0;
+	if (write_split(res, str, c, 0) == NULL)
+		return (NULL);
+	return (res);
 }

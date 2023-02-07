@@ -6,7 +6,7 @@
 /*   By: alsaez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:33:36 by alsaez            #+#    #+#             */
-/*   Updated: 2023/02/06 15:52:30 by alsaez           ###   ########.fr       */
+/*   Updated: 2023/02/07 12:30:24 by alsaez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 
 	i = 0;
 	start = 0;
+	if (!s1 || !set)
+		return (NULL);
 	end = ft_strlen(s1);
 	while (s1[start] && ft_same_char(s1[start], set))
 		start++;
