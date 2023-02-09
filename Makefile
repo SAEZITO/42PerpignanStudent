@@ -6,7 +6,7 @@
 #    By: alsaez <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/02 15:57:37 by alsaez            #+#    #+#              #
-#    Updated: 2023/02/07 13:36:32 by alsaez           ###   ########.fr        #
+#    Updated: 2023/02/08 09:50:40 by alsaez           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,15 @@ SRC = ft_atoi.c \
 	ft_isdigit.c \
 	ft_isprint.c \
 	ft_itoa.c \
+	ft_lstadd_back.c \
+	ft_lstadd_front.c \
+	ft_lstclear.c \
+	ft_lstdelone.c \
+	ft_lstiter.c \
+	ft_lstlast.c \
+	ft_lstmap.c \
+	ft_lstnew.c \
+	ft_lstsize.c \
 	ft_memchr.c \
 	ft_memcmp.c \
 	ft_memcpy.c \
