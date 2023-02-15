@@ -6,7 +6,7 @@
 /*   By: alsaez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:11:33 by alsaez            #+#    #+#             */
-/*   Updated: 2023/02/14 18:15:54 by alsaez           ###   ########.fr       */
+/*   Updated: 2023/02/15 15:55:38 by alsaez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ size_t	ft_strlen(const char *s)
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	char	*str;
-	int		j;
+	char	*s;
+	size_t	j;
 	size_t	len;
 
 	len = 0;
@@ -33,82 +33,77 @@ char	*ft_strjoin(char *s1, char *s2)
 		len = ft_strlen(s1);
 	if (s2)
 		len = ft_strlen(s1) + ft_strlen(s2);
-	str = malloc(sizeof(char) * (len + 1));
-	if (!str)
+	s = malloc(sizeof(char) * (len + 1));
+	if (!s)
 		return (NULL);
 	len = -1;
 	while (s1[++len])
-		str[len] = s1[len];
+		s[len] = s1[len];
 	j = 0;
 	while (s2[j])
-		str[len++] = s2[j++];
-	str[len] = '\0';
-	return (str);
+		s[len++] = s2[j++];
+	s[len] = '\0';
+	return (s);
 }
 
 char	*ft_strchr(char *s, int c)
 {
-	while (*s)
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	if (c == '\0')
+		return ((char *)&s[ft_strlen(s)]);
+	while (s[i] != '\0')
 	{
-		if (*s == (char)c)
-			return ((char *)s);
-		s++;
+		if (s[i] == (char)c)
+			return ((char *)&s[i]);
+		i++;
 	}
-	if (!*s && !c)
-		return ((char *)s);
-	return (NULL);
+	return (0);
 }
 
-char	*ft_getline(char *left_str)
+char	*ft_getline(char *str)
 {
 	int		i;
 	char	*s;
 
 	i = 0;
-	if (!left_str[i])
-		return (NULL);
-	while (left_str[i] && left_str[i] != '\n')
+	while (str[i] && str[i] != '\n')
 		i++;
 	s = (char *)malloc(sizeof(char) * (i + 2));
 	if (!s)
 		return (NULL);
 	i = 0;
-	while (left_str[i] && left_str[i] != '\n')
+	while (str[i] && str[i] != '\n')
 	{
-		s[i] = left_str[i];
+		s[i] = str[i];
 		i++;
 	}
-	if (left_str[i] == '\n')
+	if (str[i] == '\n')
 	{
-		s[i] = left_str[i];
+		s[i] = str[i];
 		i++;
 	}
 	s[i] = '\0';
 	return (s);
 }
 
-char	*ft_nextline(char *left_str)
+char	*ft_nextline(char *s)
 {
 	int		i;
 	int		j;
-	char	*s;
 
 	i = 0;
-	while (left_str[i] && left_str[i] != '\n')
+	while (s[i] && s[i] != '\n')
 		i++;
-	if (!left_str[i])
-	{
-		free(left_str);
-		return (NULL);
-	}
-	s = (char *)malloc(sizeof(char) * (ft_strlen(left_str) - i + 1));
-	if (!s)
-		return (NULL);
+	if (s[i] == '\0')
+		return (0);
 	i++;
 	j = 0;
-	while (left_str[i])
-		s[j++] = left_str[i++];
+	while (s[i])
+		s[j++] = s[i++];
 	s[j] = '\0';
-	free(left_str);
 	return (s);
 }
