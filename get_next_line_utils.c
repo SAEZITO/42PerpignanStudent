@@ -6,15 +6,15 @@
 /*   By: alsaez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 15:11:33 by alsaez            #+#    #+#             */
-/*   Updated: 2023/02/15 15:55:38 by alsaez           ###   ########.fr       */
+/*   Updated: 2023/02/18 12:15:41 by alsaez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_strlen(const char *s)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (s && s[i])
@@ -25,8 +25,8 @@ size_t	ft_strlen(const char *s)
 char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*s;
-	size_t	j;
-	size_t	len;
+	int		j;
+	int		len;
 
 	len = 0;
 	if (s1)
@@ -52,7 +52,7 @@ char	*ft_strchr(char *s, int c)
 
 	i = 0;
 	if (!s)
-		return (0);
+		return (NULL);
 	if (c == '\0')
 		return ((char *)&s[ft_strlen(s)]);
 	while (s[i] != '\0')
@@ -61,49 +61,30 @@ char	*ft_strchr(char *s, int c)
 			return ((char *)&s[i]);
 		i++;
 	}
-	return (0);
+	return (NULL);
 }
 
-char	*ft_getline(char *str)
+void	ft_bzero(void *s, size_t n)
 {
-	int		i;
-	char	*s;
+	char	*str;
+	size_t	i;
 
+	str = (char *)s;
 	i = 0;
-	while (str[i] && str[i] != '\n')
+	while (i < n)
+	{
+		str[i] = '\0';
 		i++;
-	s = (char *)malloc(sizeof(char) * (i + 2));
-	if (!s)
+	}
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	char	*res;
+
+	res = malloc(size * count);
+	if (!res)
 		return (NULL);
-	i = 0;
-	while (str[i] && str[i] != '\n')
-	{
-		s[i] = str[i];
-		i++;
-	}
-	if (str[i] == '\n')
-	{
-		s[i] = str[i];
-		i++;
-	}
-	s[i] = '\0';
-	return (s);
-}
-
-char	*ft_nextline(char *s)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	while (s[i] && s[i] != '\n')
-		i++;
-	if (s[i] == '\0')
-		return (0);
-	i++;
-	j = 0;
-	while (s[i])
-		s[j++] = s[i++];
-	s[j] = '\0';
-	return (s);
+	ft_bzero(res, size * count);
+	return (res);
 }
