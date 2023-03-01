@@ -6,7 +6,7 @@
 /*   By: alsaez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 14:31:20 by alsaez            #+#    #+#             */
-/*   Updated: 2023/02/27 11:56:58 by alsaez           ###   ########.fr       */
+/*   Updated: 2023/02/28 19:40:17 by alsaez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "./libft/libft.h"
 #include <stdarg.h>
 #include <stdint.h>
+#include <stdlib.h>
 
 typedef struct		s_conv
 {

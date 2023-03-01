@@ -6,7 +6,7 @@
 /*   By: alsaez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 14:23:33 by alsaez            #+#    #+#             */
-/*   Updated: 2023/02/23 16:54:22 by alsaez           ###   ########.fr       */
+/*   Updated: 2023/02/28 19:21:21 by alsaez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,13 @@ int	ft_print_nbr(int nbr)
 	int	n;
 
 	len = 1;
-	n = nbr;
+	if (nbr < 0)
+	{
+		n = -nbr;
+		len++;
+	}
+	else
+		n = nbr;
 	while (n > 0)
 	{
 		n /= 10;
@@ -84,9 +90,9 @@ int	ft_print_hex(unsigned int hex, char format)
 		return (NULL);
 	str[len] = '\0';
 	if (format == 'x')
-		ft_puthexa(hex, str, len;
+		ft_puthexa(hex, str, &len);
 	else if (format == 'X')
-		ft_putHEXA(hex, str, len);
+		ft_putHEXA(hex, str, &len);
 	free(str);
 	return(len);
 }
