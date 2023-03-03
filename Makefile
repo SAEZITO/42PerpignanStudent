@@ -6,18 +6,24 @@
 #    By: alsaez <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/22 11:25:42 by alsaez            #+#    #+#              #
-#    Updated: 2023/03/02 19:18:41 by alsaez           ###   ########.fr        #
+#    Updated: 2023/03/03 18:21:30 by alsaez           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 INCLUDE= ft_printf.h
 
 SRC= ft_printf.c \
-	 ft_treat_flags.c \
-     ft_treat_print.c \
+	 ft_treatment.c \
+     ft_treat_flags.c \
      ft_treat_print2.c \
-     ft_treat_print3.c \
-     ft_treat_print4.c
+	 ft_treat_print4.c \
+     ft_print_char.c \
+     ft_print_flag.c \
+	 ft_print_hexa.c \
+	 ft_print_int.c \
+	 ft_print_ptr.c \
+	 ft_print_str.c \
+	 ft_print_uint.c
 
 OBJ= ${SRC:.c=.o}
 

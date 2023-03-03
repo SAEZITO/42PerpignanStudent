@@ -6,12 +6,12 @@
 /*   By: alsaez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:31:07 by alsaez            #+#    #+#             */
-/*   Updated: 2023/03/02 20:46:50 by alsaez           ###   ########.fr       */
+/*   Updated: 2023/03/03 18:23:36 by alsaez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
-//# include <stdio.h>
+#include "ft_printf.h"
+#include <stdio.h>
 
 t_flags	ft_init_flags(void)
 {
@@ -26,40 +26,31 @@ t_flags	ft_init_flags(void)
 	return (flags);
 }
 
-int	ft_is_in_type_list(int c)
+int	ft_flag_parse(const char *str, int i, t_flags *flags, va_list args)
 {
-	return ((c == 'c') || (c == 's') || (c == 'p') || (c == 'd') || (c == 'i')
-		|| (c == 'u') || (c == 'x') || (c == 'X') || (c == '%'));
-}
-
-int	ft_is_in_flags_list(int c)
-{
-	return ((c == '-') || (c == ' ') || (c == '0') || (c == '.') || (c == '*'));
-}
-
-int	ft_printment(int c, t_flags flags, va_list args)
-{
-	int	char_count;
-
-	char_count = 0;
-	if (c == 'c')
-		char_count = ft_putchar(va_arg(args, int), flags);
-	else if (c == 's')
-		char_count = ft_treat_string(va_arg(args, char *), flags);
-	else if (c == 'p')
-		char_count = ft_treat_ptr(va_arg(args, unsigned long long), flags);
-	else if (c == 'd' || c == 'i')
-		char_count = ft_treat_int(va_arg(args, int), flags);
-	else if (c == 'u')
-		char_count += ft_treat_uint((unsigned int)va_arg(args, unsigned int),
-				flags);
-	else if (c == 'x')
-		char_count += ft_treat_hexa(va_arg(args, unsigned int), 1, flags);
-	else if (c == 'X')
-		char_count += ft_treat_hexa(va_arg(args, unsigned int), 0, flags);
-	else if (c == '%')
-		char_count += ft_treat_percent(flags);
-	return (char_count);
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]) && !ft_is_in_type_list(str[i])
+			&& !ft_is_in_flags_list(str[i]))
+			break ;
+		if (str[i] == '0' && flags->width == 0 && flags->minus == 0)
+			flags->zero = 1;
+		if (str[i] == '.')
+			i = ft_flag_dot(str, i, flags, args);
+		if (str[i] == '-')
+			*flags = ft_flag_minus(*flags);
+		if (str[i] == '*')
+			*flags = ft_flag_width(args, *flags);
+		if (ft_isdigit(str[i]))
+			*flags = ft_flag_digit(str[i], *flags);
+		if (ft_is_in_type_list(str[i]))
+		{
+			flags->type = str[i];
+			break ;
+		}
+		i++;
+	}
+	return (i);
 }
 
 int	ft_treat_str(const char *str, va_list args)
@@ -79,7 +70,7 @@ int	ft_treat_str(const char *str, va_list args)
 		{
 			i = ft_flag_parse(str, ++i, &flags, args);
 			if (ft_is_in_type_list(str[i]))
-				char_count += ft_printment((char)flags.type, flags, args);
+				char_count += ft_treatment((char)flags.type, flags, args);
 			else if (str[i])
 				char_count += ft_putchar(str[i], flags);
 		}
@@ -105,20 +96,51 @@ int	ft_printf(const char *input, ...)
 	return (char_count);
 }
 
-/*int	main(void)
+int	main(void)
 {
-	int	i;
-	int	j;
-	char	*str;
+	int		i;
+	unsigned int		j;
+	int		res;
+	int		res2;
+	char	*s;
 	char	c;
-	int	res;
 
 	c = '%';
-	str = "bonjour";
+	s = 0;
 	i = 100;
-	j = 33;
-	res = ft_printf("Start %% %010d %-.20i %p %c End \n", i, j, str, c);
-	printf("Start %% %010d %-.20i %p %c End \n", i, j, str, c);
+	j = 3300000000;
+	res = ft_printf("Start %% %010d %-.20i %p %c End \n", i, j, s, c);
+	res2 = printf("Start %% %010d %-.20i %p %c End \n", i, j, s, c);
 	ft_putnbr_fd(res, 1);
-	return(0);
-}*/
+	ft_putnbr_fd(res2, 1);
+	ft_putchar_fd('\n', 1);
+	ft_putnbr_fd(ft_printf("s%-10ce\n", c), 1);
+        ft_putchar_fd('\n', 1);
+        ft_putnbr_fd(printf("s%-10ce\n", c), 1);
+        ft_putchar_fd('\n', 1);
+        ft_putnbr_fd(ft_printf("s%10.5se\n", s), 1);
+        ft_putchar_fd('\n', 1);
+        ft_putnbr_fd(printf("s%10.5se\n", s), 1);
+        ft_putchar_fd('\n', 1);
+        ft_putnbr_fd(ft_printf("s%20pe\n", s), 1);
+        ft_putchar_fd('\n', 1);
+        ft_putnbr_fd(printf("s%20pe\n", s), 1);
+        ft_putchar_fd('\n', 1);
+        ft_putnbr_fd(ft_printf("s%010de\n", i), 1);
+        ft_putchar_fd('\n', 1);
+        ft_putnbr_fd(printf("s%010de\n", i), 1);
+        ft_putchar_fd('\n', 1);
+        ft_putnbr_fd(ft_printf("s%010ue\n", j), 1);
+        ft_putchar_fd('\n', 1);
+        ft_putnbr_fd(printf("s%010ue\n", j), 1);
+        ft_putchar_fd('\n', 1);
+        ft_putnbr_fd(ft_printf("s%010xe\n", j), 1);
+        ft_putchar_fd('\n', 1);
+        ft_putnbr_fd(printf("s%010xe\n", j), 1);
+        ft_putchar_fd('\n', 1);
+        ft_putnbr_fd(ft_printf("%s World %-10.5i.\n", s, i), 1);
+        ft_putchar_fd('\n', 1);
+        ft_putnbr_fd(printf("%s World %-10.5i.\n", s, i), 1);
+
+	return (0);
+}

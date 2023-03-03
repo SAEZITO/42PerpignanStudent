@@ -6,28 +6,11 @@
 /*   By: alsaez <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 20:51:50 by alsaez            #+#    #+#             */
-/*   Updated: 2023/03/02 20:52:56 by alsaez           ###   ########.fr       */
+/*   Updated: 2023/03/03 18:31:33 by alsaez           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
-
-int	ft_treat_width(int width, int minus, int has_zero)
-{
-	int char_count;
-
-	char_count = 0;
-	while (width - minus > 0)
-	{
-		if (has_zero)
-			ft_putchar_fd('0', 1);
-		else
-			ft_putchar_fd(' ', 1);
-		width -= 1;
-		char_count++;
-	}
-	return (char_count);
-}
+#include "ft_printf.h"
 
 static int	ft_estim(long n)
 {
@@ -88,7 +71,8 @@ char	*ft_u_itoa(unsigned int n)
 	len = ft_estim(nbr);
 	rtn = 0;
 	isneg = 0;
-	if (!(rtn = ft_gen(rtn, nbr, len, isneg)))
+	rtn = ft_gen(rtn, nbr, len, isneg);
+	if (!rtn)
 		return (0);
 	return (rtn);
 }
@@ -99,9 +83,9 @@ char *rtn, int count)
 	while (ull_str != 0)
 	{
 		if ((ull_str % base) < 10)
-			rtn[count - 1] = (ull_str % base) + 48;
+			rtn[count - 1] = (ull_str % base) + '0';
 		else
-			rtn[count - 1] = (ull_str % base) + 55;
+			rtn[count - 1] = (ull_str % base) + ('A' - 10);
 		ull_str /= base;
 		count--;
 	}
@@ -124,33 +108,10 @@ char	*ft_ull_base(unsigned long long ull, int base)
 		ull /= base;
 		count++;
 	}
-	if (!(rtn = malloc(sizeof(char) * (count + 1))))
+	rtn = malloc(sizeof(char) * (count + 1));
+	if (!rtn)
 		return (0);
 	rtn[count] = '\0';
 	rtn = treat_base(ull_str, base, rtn, count);
 	return (rtn);
-}
-
-int	ft_putchar(int c, t_flags flags)
-{
-	int	i;
-
-	i = 0;
-	i = ft_treat_width(flags.width, flags.minus, flags.zero);
-	ft_putchar_fd(c, 1);
-	i++;
-	return(i);
-}
-
-char	*ft_str_tolower(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		str[i] = ft_tolower(str[i]);
-		i++;
-	}
-	return(str);
 }
